@@ -1,0 +1,16 @@
+x-pegasus:
+  apiLang: python
+  createdBy: tylern
+  createdOn: 10-10-22T11:10:18Z
+pegasus: '5.0'
+transformations:
+- name: split
+  sites:
+  - name: cori
+    pfn: /usr/bin/split
+    type: installed
+- name: wc
+  sites:
+  - name: cori
+    pfn: /usr/bin/wc
+    type: installed
