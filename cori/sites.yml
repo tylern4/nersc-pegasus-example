@@ -1,0 +1,56 @@
+x-pegasus:
+  apiLang: python
+  createdBy: tylern
+  createdOn: 10-10-22T14:22:01Z
+pegasus: '5.0'
+sites:
+- name: local
+  directories:
+  - type: sharedScratch
+    path: /global/cscratch1/sd/${NERSC_USER}/pegasus/scratch
+    sharedFileSystem: false
+    fileServers:
+    - url: file:///global/cscratch1/sd/${NERSC_USER}/pegasus/scratch
+      operation: all
+  - type: localStorage
+    path: /global/cscratch1/sd/${NERSC_USER}/pegasus/output
+    sharedFileSystem: false
+    fileServers:
+    - url: file:///global/cscratch1/sd/${NERSC_USER}/pegasus/output
+      operation: all
+- name: cori
+  directories:
+  - type: sharedScratch
+    path: /global/cscratch1/sd/${NERSC_USER}/pegasus/scratch
+    sharedFileSystem: false
+    fileServers:
+    - url: file:///global/cscratch1/sd/${NERSC_USER}/pegasus/scratch
+      operation: all
+  - type: sharedStorage
+    path: /global/cscratch1/sd/${NERSC_USER}/pegasus/storage
+    sharedFileSystem: false
+    fileServers:
+    - url: file:///global/cscratch1/sd/${NERSC_USER}/pegasus/storage
+      operation: all
+  grids:
+  - type: batch
+    contact: ${NERSC_USER}@cori.nersc.gov
+    scheduler: slurm
+    jobtype: compute
+  profiles:
+    condor:
+      grid_resource: batch slurm
+    env:
+      PEGASUS_HOME: ${NERSC_PEGASUS_HOME}
+    pegasus:
+      style: glite
+      data.configuration: sharedfs
+      project: nstaff
+      queue: debug
+      change.dir: 'true'
+      create.dir: 'true'
+      glite.arguments: -C haswell
+      cores: '2'
+      memory: 4096
+      runtime: '1200'
+      nodes: 1

@@ -1,0 +1,10 @@
+x-pegasus:
+  apiLang: python
+  createdBy: tylern
+  createdOn: 10-12-22T09:09:36Z
+pegasus: '5.0'
+replicas:
+- lfn: covid.csv
+  pfns:
+  - site: local
+    pfn: /pscratch/sd/t/tylern/pegasus/input/covid.csv

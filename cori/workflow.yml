@@ -1,7 +1,7 @@
 x-pegasus:
   apiLang: python
   createdBy: tylern
-  createdOn: 10-10-22T11:10:18Z
+  createdOn: 10-10-22T14:22:01Z
 pegasus: '5.0'
 name: split
 jobs:
@@ -84,6 +84,14 @@ jobs:
   - covid.csv
   - part.
   uses:
+  - lfn: part.c
+    type: output
+    stageOut: true
+    registerReplica: true
+  - lfn: part.b
+    type: output
+    stageOut: true
+    registerReplica: true
   - lfn: part.a
     type: output
     stageOut: true
@@ -94,14 +102,6 @@ jobs:
     type: output
     stageOut: true
     registerReplica: true
-  - lfn: part.b
-    type: output
-    stageOut: true
-    registerReplica: true
-  - lfn: part.c
-    type: output
-    stageOut: true
-    registerReplica: true
   profiles:
     pegasus:
       label: p1
@@ -109,6 +109,6 @@ jobDependencies:
 - id: ID0000005
   children:
   - ID0000002
-  - ID0000004
   - ID0000003
+  - ID0000004
   - ID0000001

@@ -103,6 +103,7 @@ class SplitWorkflow:
             create_dir="true",
             glite_arguments="-C haswell",
             cores="2",
+            memory="4GB",
             runtime="1200",
             nodes=1,
         )

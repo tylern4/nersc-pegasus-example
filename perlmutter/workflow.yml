@@ -1,0 +1,114 @@
+x-pegasus:
+  apiLang: python
+  createdBy: tylern
+  createdOn: 10-12-22T09:09:36Z
+pegasus: '5.0'
+name: split
+jobs:
+- type: job
+  name: wc
+  id: ID0000001
+  stdout: count.txt.a
+  arguments:
+  - -l
+  - part.a
+  uses:
+  - lfn: part.a
+    type: input
+  - lfn: count.txt.a
+    type: output
+    stageOut: true
+    registerReplica: true
+  profiles:
+    pegasus:
+      label: p1
+- type: job
+  name: wc
+  id: ID0000002
+  stdout: count.txt.b
+  arguments:
+  - -l
+  - part.b
+  uses:
+  - lfn: part.b
+    type: input
+  - lfn: count.txt.b
+    type: output
+    stageOut: true
+    registerReplica: true
+  profiles:
+    pegasus:
+      label: p1
+- type: job
+  name: wc
+  id: ID0000003
+  stdout: count.txt.c
+  arguments:
+  - -l
+  - part.c
+  uses:
+  - lfn: count.txt.c
+    type: output
+    stageOut: true
+    registerReplica: true
+  - lfn: part.c
+    type: input
+  profiles:
+    pegasus:
+      label: p1
+- type: job
+  name: wc
+  id: ID0000004
+  stdout: count.txt.d
+  arguments:
+  - -l
+  - part.d
+  uses:
+  - lfn: part.d
+    type: input
+  - lfn: count.txt.d
+    type: output
+    stageOut: true
+    registerReplica: true
+  profiles:
+    pegasus:
+      label: p1
+- type: job
+  name: split
+  id: ID0000005
+  arguments:
+  - -n
+  - '4'
+  - -a
+  - '1'
+  - covid.csv
+  - part.
+  uses:
+  - lfn: part.b
+    type: output
+    stageOut: true
+    registerReplica: true
+  - lfn: part.d
+    type: output
+    stageOut: true
+    registerReplica: true
+  - lfn: covid.csv
+    type: input
+  - lfn: part.c
+    type: output
+    stageOut: true
+    registerReplica: true
+  - lfn: part.a
+    type: output
+    stageOut: true
+    registerReplica: true
+  profiles:
+    pegasus:
+      label: p1
+jobDependencies:
+- id: ID0000005
+  children:
+  - ID0000001
+  - ID0000004
+  - ID0000002
+  - ID0000003
