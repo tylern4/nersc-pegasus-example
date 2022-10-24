@@ -50,7 +50,7 @@ sites:
       project: nstaff
       change.dir: 'true'
       create.dir: 'true'
-      glite.arguments: -C cpu -q debug
+      glite.arguments: -C cpu -q shared
       cores: '2'
       runtime: '1200'
       nodes: 1

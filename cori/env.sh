@@ -1,4 +1,4 @@
-
+conda activate /global/cfs/cdirs/nstaff/tylern/condaEnvs/pegasus
 
 export CONDOR_INSTALL=/global/cfs/cdirs/jaws/condor/condor-9.5
 export NERSC_PEGASUS_HOME=/global/common/software/m3792/pegasus
