@@ -28,15 +28,6 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 class SplitWorkflow:
-    # wf = None
-    # sc = None
-    # tc = None
-    # rc = None
-    # props = None
-    # dagfile = None
-    # wf_name = None
-    # wf_dir = None
-
     # --- Init ----------------------------------------------------------------
     def __init__(self, dagfile="workflow.yml"):
         self.dagfile = dagfile
@@ -54,8 +45,8 @@ class SplitWorkflow:
         # --- Write files in directory --------------------------------------------
 
     def write(self):
-        if not self.sc is None:
-            self.sc.write()
+        # if not self.sc is None:
+        #     self.sc.write()
         self.props.write()
         self.tc.write()
         self.rc.write()
@@ -98,7 +89,7 @@ class SplitWorkflow:
             style="glite",
             data_configuration="sharedfs",
             project="nstaff",
-            queue="debug",
+            queue="shared",
             change_dir="true",
             create_dir="true",
             glite_arguments="-C haswell",
@@ -115,10 +106,10 @@ class SplitWorkflow:
         self.tc = TransformationCatalog()
 
         wc = Transformation(
-            "wc", site=exec_site_name, pfn="/usr/bin/wc", is_stageable=False,
+            "wc", site=exec_site_name, pfn="/usr/bin/wc", is_stageable=False  # , container=centos,
         )
         split = Transformation(
-            "split", site=exec_site_name, pfn="/usr/bin/split", is_stageable=False,
+            "split", site=exec_site_name, pfn="/usr/bin/split", is_stageable=False
         )
 
         self.tc.add_transformations(split, wc)
@@ -137,28 +128,29 @@ class SplitWorkflow:
     def create_workflow(self):
         self.wf = Workflow(self.wf_name, infer_dependencies=True)
 
-        webpage = File("covid.csv")
+        csv_file = File("covid.csv")
 
-        # the split job that splits the webpage into smaller chunks
+        # the split job that splits the csv_file into smaller chunks
         split = (
             Job("split")
-            .add_args("-n", "4", "-a", "1", webpage, "part.")
-            .add_inputs(webpage)
+            .add_args("-n", "4", "-a", "1", csv_file, "part.")
+            .add_inputs(csv_file)
             .add_pegasus_profile(label="p1")
         )
 
         # we do a parmeter sweep on the first 4 chunks created
-        for c in "abcd":
+        counts = {}
+        for c in ['a', 'b', 'c', 'd']:
             part = File("part.%s" % c)
             split.add_outputs(part, stage_out=True, register_replica=True)
 
-            count = File("count.txt.%s" % c)
+            counts[c] = File("count.txt.%s" % c)
 
             wc = (
                 Job("wc")
                 .add_args("-l", part)
                 .add_inputs(part)
-                .set_stdout(count, stage_out=True, register_replica=True)
+                .set_stdout(counts[c], stage_out=True, register_replica=True)
                 .add_pegasus_profile(label="p1")
             )
 
@@ -197,9 +189,9 @@ if __name__ == "__main__":
 
     workflow = SplitWorkflow(args.output)
 
-    if not args.skip_sites_catalog:
-        print("Creating execution sites...")
-        workflow.create_sites_catalog(args.execution_site_name)
+    # if not args.skip_sites_catalog:
+    #     print("Creating execution sites...")
+    #     workflow.create_sites_catalog(args.execution_site_name)
 
     print("Creating workflow properties...")
     workflow.create_pegasus_properties()

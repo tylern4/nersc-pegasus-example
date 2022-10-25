@@ -1,7 +1,7 @@
 x-pegasus:
   apiLang: python
   createdBy: tylern
-  createdOn: 10-10-22T14:22:01Z
+  createdOn: 10-24-22T19:32:47Z
 pegasus: '5.0'
 sites:
 - name: local
@@ -38,6 +38,8 @@ sites:
     scheduler: slurm
     jobtype: compute
   profiles:
+    globus:
+      totalmemory: 2048
     condor:
       grid_resource: batch slurm
     env:
@@ -46,11 +48,10 @@ sites:
       style: glite
       data.configuration: sharedfs
       project: nstaff
-      queue: debug
+      queue: shared
       change.dir: 'true'
       create.dir: 'true'
       glite.arguments: -C haswell
       cores: '2'
-      memory: 4096
       runtime: '1200'
       nodes: 1

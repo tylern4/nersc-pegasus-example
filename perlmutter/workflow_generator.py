@@ -28,14 +28,6 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 class SplitWorkflow:
-    # wf = None
-    # sc = None
-    # tc = None
-    # rc = None
-    # props = None
-    # dagfile = None
-    # wf_name = None
-    # wf_dir = None
 
     # --- Init ----------------------------------------------------------------
     def __init__(self, dagfile="workflow.yml"):
@@ -171,7 +163,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "-s",
-        "--skip_sites_catalog",
+        "--sites_catalog",
         action="store_true",
         help="Skip site catalog creation",
     )
@@ -196,7 +188,7 @@ if __name__ == "__main__":
 
     workflow = SplitWorkflow(args.output)
 
-    if not args.skip_sites_catalog:
+    if not args.sites_catalog:
         print("Creating execution sites...")
         workflow.create_sites_catalog(args.execution_site_name)
 

@@ -19,7 +19,8 @@ Download newsest pre-compiled version of pegagsus built for [rhel8](http://downl
 ```bash
 wget http://download.pegasus.isi.edu/pegasus/5.0.2/pegasus-binary-5.0.2-x86_64_rhel_8.tar.gz
 tar -xvf pegasus-binary-5.0.2-x86_64_rhel_8.tar.gz
-export PATH=/path/to/pegasus/bin:$PATH
+export PEGASUS_INSTALL=/path/to/pegasus
+export PATH=${PEGASUS_INSTALL}/bin:$PATH
 ```
 
 ### Create conda environment
